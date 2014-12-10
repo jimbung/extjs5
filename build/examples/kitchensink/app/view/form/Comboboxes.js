@@ -17,6 +17,9 @@ Ext.define('KitchenSink.view.form.Comboboxes', {
     
     exampleTitle: 'Combo Boxes',
     otherContent: [{
+        type: 'Controller',
+        path: 'app/view/form/ComboboxesController.js'
+    },{
         type: 'Model',
         path: 'app/model/State.js'
     }, {
@@ -33,6 +36,9 @@ Ext.define('KitchenSink.view.form.Comboboxes', {
     defaults: {
         'margin-bottom': '20px',
         defaultType: 'combobox',
+        defaults: {
+            valueField: 'abbr'
+        },
         layout: 'anchor'
     },
     

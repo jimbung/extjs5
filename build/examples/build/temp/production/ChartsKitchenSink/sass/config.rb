@@ -1,3 +1,3 @@
 require '../../../../../../packages/ext-theme-base/sass/utils.rb'
-require '../../../../../charts-kitchensink/sass/config.rb'
-cache_path = '/home/teamcity/buildAgent/work/3cebfbfc7c03d949/sencha/ext/examples/charts-kitchensink/../build/.sass-cache'
+Compass.add_project_configuration('../../../../../charts-kitchensink/sass/config.rb')
+cache_path = '/home/teamcity/buildAgent/work/2f38b4615807107b/staging/examples/charts-kitchensink/../build/.sass-cache'

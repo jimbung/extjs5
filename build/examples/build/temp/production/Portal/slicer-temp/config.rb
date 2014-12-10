@@ -1,2 +1,2 @@
 require '../../../../../../packages/ext-theme-base/sass/utils.rb'
-require '../../../../../portal/sass/config.rb'
+Compass.add_project_configuration('../../../../../portal/sass/config.rb')

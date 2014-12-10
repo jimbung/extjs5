@@ -99,7 +99,7 @@ Ext.onReady(function() {
         itemSelector: 'div.phone',
         overItemCls : 'phone-hover',
         multiSelect : true,
-        autoScroll  : true
+        scrollable  : true
     });
 
     var phoneSlider = Ext.create('Ext.slider.Multi', {

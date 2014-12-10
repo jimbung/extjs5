@@ -60,7 +60,7 @@ Ext.onReady(function(){
     var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
         clicksToEdit: 1
     });
-    var showSummary = true;
+
     var grid = Ext.create('Ext.grid.Panel', {
         width: 800,
         height: 450,
@@ -98,12 +98,7 @@ Ext.onReady(function(){
                 enableToggle: true,
                 pressed: true,
                 handler: function() {
-                    var view = grid.lockedGrid.getView();
-                    view.getFeature('group').toggleSummaryRow();
-                    view.refresh();
-                    view = grid.normalGrid.getView();
-                    view.getFeature('group').toggleSummaryRow();
-                    view.refresh();
+                    grid.lockedGrid.getView().getFeature('group').toggleSummaryRow();
                 }
             }]
         }],

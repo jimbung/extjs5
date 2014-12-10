@@ -173,7 +173,8 @@ a {
     font-family: Sencha-Examples;
 }
 
-.example-icon {
+/* tag name added to this selector to override line-height in font icon stylesheet */
+div.example-icon {
     color: #fff;
     position: absolute;
     top: 0;
