@@ -24,6 +24,9 @@ Ext.define('KitchenSink.view.direct.Form', {
         type: 'ViewController',
         path: 'app/view/direct/FormController.js'
     }, {
+        type: 'Base ViewController',
+        path: 'app/view/direct/DirectVC.js'
+    }, {
         type: 'Server Profile class',
         path: 'resources/direct/source.php?file=profile'
     }, {

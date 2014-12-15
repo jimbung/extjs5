@@ -1,7 +1,12 @@
 /**
- * This Controller handles initialization requests for the Ext.Direct API
+ * This Controller handles initialization requests for the Ext Direct API
  * shared by different examples; in itself it is an example of dynamic
- * API loading.
+ * API manipulation.
+ *
+ * The primary reason to have a global Controller handling Ext Direct
+ * is to keep Direct configuration centralized for the application,
+ * as well as avoid binding transient ViewControlles to Provider
+ * instances unless necessary.
  */
 
 Ext.define('KitchenSink.controller.Direct', {
@@ -9,7 +14,8 @@ Ext.define('KitchenSink.controller.Direct', {
     
     requires: [
         'Ext.direct.RemotingProvider',
-        'Ext.direct.Manager'
+        'Ext.direct.Manager',
+        'Ext.app.domain.Direct'
     ],
     
     config: {
@@ -42,6 +48,18 @@ Ext.define('KitchenSink.controller.Direct', {
         this.providers = {};
     },
     
+    destroy: function() {
+        var providers = this.providers,
+            url;
+        
+        for (url in providers) {
+            providers[url].disconnect();
+            providers[url] = null;
+        }
+        
+        this.callParent();
+    },
+    
     /**
      * Request remote API from the server, and create a new Direct provider
      * when API declaration is received; alternatively create a new provider
@@ -52,60 +70,35 @@ Ext.define('KitchenSink.controller.Direct', {
      */
     onDirectConnect: function(options) {
         var me = this,
-            providers = me.providers,
-            url, varName, provider, providerCfg, requestId;
-        
-        // No defaults for this one
-        providerCfg = options.provider;
+            providerCfg = options.providerCfg,
+            url, provider, request;
         
         url = (providerCfg && providerCfg.url) || options.apiUrl  || me.getApiUrl();
         
         // The provider at that URI may have been initialized already
-        provider = providers[url];
+        provider = me.providers[url];
         
+        // ViewController may not have specific API URL defined in its
+        // configuration, which means we need to return the URL used.
         options.url = url;
         
-        // We hold the number of subscribers using this provider
-        // and will disconnect it when it reaches 0. That also means
-        // that we need to connect it again when someone requests it.
         if (provider) {
-            if (!provider.subscribers) {
-                provider.connect();
-                provider.subscribers = 1;
-            }
-            else {
-                provider.subscribers++;
-            }
+            provider.connect();
             
             options.success = true;
             
             return;
         }
         
-        // We may be passed a provider configuration object, so instead of
-        // fetching it from the server, add the provider directly.
-        if (providerCfg && providerCfg.type && providerCfg.url) {
-            me.onDirectApiLoad(providerCfg.url, {}, providerCfg);
-        }
-        else {
-            varName = options.varName || me.getVarName();
+        request = Ext.apply({
+            url: url,
+            varName: options.varName || me.getVarName()
+        }, providerCfg);
         
-            Ext.Loader.loadScript({
-                url: url,
-            
-                // We have to use closures here as Loader does not support
-                // passing options object from caller to callback.
-                onLoad: function() {
-                    this.onDirectApiLoad(url, varName, providerCfg);
-                },
-            
-                onError: function() {
-                    this.onDirectApiFailure(url);
-                },
-            
-                scope: me
-            });
-        }
+        // We may be passed a provider configuration object that contains
+        // sufficient information to create a Provider instance. In that
+        // case, loadProvider will add it and fire the callback immediately.
+        Ext.direct.Manager.loadProvider(request, me.providerCallback, me);
     },
     
     /**
@@ -119,13 +112,7 @@ Ext.define('KitchenSink.controller.Direct', {
         var provider = this.providers[url];
         
         if (provider) {
-            if (provider.subscribers > 0) {
-                provider.subscribers--;
-                
-                if (provider.subscribers === 0) {
-                    provider.disconnect();
-                }
-            }
+            provider.disconnect();
         }
     },
     
@@ -136,54 +123,20 @@ Ext.define('KitchenSink.controller.Direct', {
         options.provider = this.providers[options.url];
     },
     
-    onDirectApiLoad: function(apiUrl, varName, providerCfg) {
-        var me = this,
-            api, provider, error;
+    providerCallback: function(apiUrl, provider) {
+        var me = this;
         
-        // Variable name could be nested (default is Ext.app.REMOTING_API),
-        // so we use eval() to get the value.
-        api = eval(varName);
-        
-        if (api) {
-            try {
-                api = Ext.apply({}, api, providerCfg);
-                
-                provider = Ext.direct.Manager.addProvider(api);
-                
-                // Direct Manager will connect the provider automatically
-                // upon creation, so we just prime the counter
-                provider.subscribers = 1;
-                
-                me.providers[apiUrl] = provider;
-                
-                // Polling providers will poll server side for events
-                // periodically, and fire `data` events when something
-                // is received. We relay these events here so that the
-                // consumer ViewControllers did not have to bind to the
-                // Polling controller directly.
-                if (provider.type === 'polling') {
-                    me.relayEvents(provider, ['data'], 'directevent');
-                }
-            }
-            catch (e) {
-                error = e + '';
-            }
-        }
-        else {
-            error = 'Cannot resolve Ext.Direct variable name: ' + varName;
+        // Error message can be returned instead of provider
+        if (Ext.isString(provider)) {
+            me.fireEvent('providerfail', apiUrl, provider);
+            
+            return;
         }
         
-        if (error) {
-            this.fireEvent('providerfail', apiUrl, error);
-        }
-        else {
-            this.fireEvent('providerinit', apiUrl);
-        }
-    },
-    
-    onDirectApiFailure: function(apiUrl, error) {
-        error = error || "Ext.Direct API was not found at " + apiUrl;
+        // We don't need to connect the provider as it was
+        // connected automatically by the Direct Manager
+        me.providers[apiUrl] = provider;
         
-        this.fireEvent('providerfail', apiUrl, error);
+        me.fireEvent('providerinit', apiUrl);
     }
 });

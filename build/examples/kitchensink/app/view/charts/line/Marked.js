@@ -3,7 +3,7 @@
  * Markers are placed at each point to clearly depict their position on the chart.
  */
 Ext.define('KitchenSink.view.charts.line.Marked', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.panel.Panel',
     xtype: 'line-marked',
 
     // <example>

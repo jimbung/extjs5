@@ -21,6 +21,9 @@ Ext.define('KitchenSink.view.direct.Tree', {
         type: 'ViewController',
         path: 'app/view/direct/TreeController.js'
     }, {
+        type: 'Base ViewController',
+        path: 'app/view/direct/DirectVC.js'
+    }, {
         type: 'Server TestAction class',
         path: 'resources/direct/source.php?file=testaction'
     }, {

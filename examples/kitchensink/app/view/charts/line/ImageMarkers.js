@@ -3,7 +3,7 @@
  * to visualize the evolution of a value over time, or the ratio between any two values.
  */
 Ext.define('KitchenSink.view.charts.line.ImageMarkers', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.panel.Panel',
     xtype: 'line-markers',
 
     requires: [

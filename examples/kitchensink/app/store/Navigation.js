@@ -253,7 +253,7 @@ Ext.define('KitchenSink.store.Navigation', {
                     { id: 'locking-grid', text: 'Locking Grid', leaf: true },
                     { id: 'grouped-header-grid', text: 'Grouped Header Grid', leaf: true },
                     { id: 'multi-sort-grid', text: 'Multiple Sort Grid', leaf: true },
-                    { id: 'spreadsheet', text: 'Spreadsheet', leaf: true},
+                    { id: 'spreadsheet', text: 'Spreadsheet with locking', leaf: true},
                     { id: 'spreadsheet-checked', text: 'Spreadsheet with Checked Rows', leaf: true },
                     { id: 'progress-bar-pager', text: 'Progress Bar Pager', leaf: true },
                     { id: 'sliding-pager', text: 'Sliding Pager', leaf: true },
@@ -400,7 +400,21 @@ Ext.define('KitchenSink.store.Navigation', {
                 children: [
                     { id: 'form-number', text: 'Number Field', leaf: true },
                     { id: 'form-date', text: 'Date/Month Picker', leaf: true },
-                    { id: 'form-combos', text: 'Combo Boxes', leaf: true },
+                    {
+                        id: 'combo-boxes',
+                        expanded: true,
+                        text: 'ComboBoxes',
+                        leaf: false,
+                        description: 'These examples demonstrate that ComboBoxes can use any type of ' +
+                                'Ext.data.Store as a data souce. This means your data can be XML, JSON, '+
+                                'arrays or any other supported format. It can be loaded using Ajax, JSONP or locally.',
+                        children: [
+                            {id: 'simple-combo', text: 'Simple ComboBox', leaf: true },
+                            {id: 'remote-combo', text: 'Remote Query ComboBox', leaf: true },
+                            {id: 'remote-loaded-combo', text: 'Remote loaded ComboBox', leaf: true },
+                            {id: 'custom-template-combo', text: 'Custom Template ComboBox', leaf: true }
+                        ]
+                    },
                     { id: 'form-fileuploads', text: 'File Uploads', leaf: true },
                     { id: 'form-fieldreplicator', text: 'Field Replicator', leaf: true },
                     { id: 'form-grid', text: 'Form with Grid', leaf: true },
@@ -483,7 +497,7 @@ Ext.define('KitchenSink.store.Navigation', {
                 ]
             },
             {
-                text: 'Ext.Direct',
+                text: 'Ext Direct',
                 id: 'direct',
                 expanded: true,
                 description: 'Ext Direct streamlines communication between the client and server by providing a single ' +

@@ -117,7 +117,7 @@ Ext.define('KitchenSink.view.charts.bar3d.Stacked100', {
         {
             text: 'Preview',
             handler: function() {
-                me.down('cartesian').preview();
+                this.up('panel').down('cartesian').preview();
             }
         }
     ]

@@ -25,6 +25,9 @@ Ext.define('KitchenSink.view.direct.Grid', {
         type: 'ViewController',
         path: 'app/view/direct/GridController.js'
     }, {
+        type: 'Base ViewController',
+        path: 'app/view/direct/DirectVC.js'
+    }, {
         type: 'Server TestAction class',
         path: 'resources/direct/source.php?file=testaction'
     }, {

@@ -4,16 +4,16 @@
 // querystring param, but it could be easily extended to do so.
 
 $states = array(
-    "Alabama"        => array(00, "AL", "Alabama", "The Heart of Dixie"),
-    "Alaska"         => array(01, "AK", "Alaska", "The Land of the Midnight Sun"),
-    "Arkansas"       => array(02, "AR", "Arkansas", "The Natural State"),
-    "Arizona"        => array(03, "AZ", "Arizona", "The Grand Canyon State"),
-    "California"     => array(04, "CA", "California", "The Golden State"),
-    "Colorado"       => array(05, "CO", "Colorado", "The Mountain State"),
-    "Connecticut"    => array(06, "CT", "Connecticut", "The Constitution State"),
-    "Delaware"       => array(07, "DE", "Delaware", "The First State"),
-    "Florida"        => array(08, "FL", "Florida", "The Sunshine State"),
-    "Georgia"        => array(09, "GA", "Georgia", "The Peach State"),
+    "Alabama"        => array(0,  "AL", "Alabama", "The Heart of Dixie"),
+    "Alaska"         => array(1,  "AK", "Alaska", "The Land of the Midnight Sun"),
+    "Arkansas"       => array(2,  "AR", "Arkansas", "The Natural State"),
+    "Arizona"        => array(3,  "AZ", "Arizona", "The Grand Canyon State"),
+    "California"     => array(4,  "CA", "California", "The Golden State"),
+    "Colorado"       => array(5,  "CO", "Colorado", "The Mountain State"),
+    "Connecticut"    => array(6,  "CT", "Connecticut", "The Constitution State"),
+    "Delaware"       => array(7,  "DE", "Delaware", "The First State"),
+    "Florida"        => array(8,  "FL", "Florida", "The Sunshine State"),
+    "Georgia"        => array(9,  "GA", "Georgia", "The Peach State"),
     "Hawaii"         => array(10, "HI", "Hawaii", "The Aloha State"),
     "Idaho"          => array(11, "ID", "Idaho", "Famous Potatoes"),
     "Illinois"       => array(12, "IL", "Illinois", "The Prairie State"),
@@ -53,14 +53,15 @@ $states = array(
     "Washington"     => array(46, "WA", "Washington", "Green Tree State"),
     "West Virginia"  => array(47, "WV", "West Virginia", "Mountain State"),
     "Wisconsin"      => array(48, "WI", "Wisconsin", "America's Dairyland"),
-    "Wisconsin"      => array(49, "WY", "Wyoming", "Like No Place on Earth")
+    "Wyoming"        => array(49, "WY", "Wyoming", "Like No Place on Earth")
 );
 
-$query = '/^' . $_GET['q'] . '/i';
+$query = $_GET['q'];
+$queryRe = '/^' . $query . '/i';
 $found = array();
 
 function filter_states($val, $i) {
-    if (preg_match($GLOBALS['query'], $i)) {
+    if (strlen($GLOBALS['query']) === 0 || preg_match($GLOBALS['queryRe'], $i)) {
         array_push($GLOBALS['found'], $GLOBALS['states'][$i]);
     }
 }

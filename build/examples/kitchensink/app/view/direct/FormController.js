@@ -6,7 +6,7 @@ Ext.define('KitchenSink.view.direct.FormController', {
         /*
          * Note that we're overriding the default URI here
          * to load the API that is specific to Form handling
-         * and initialize it as a separate Ext.Direct Provider.
+         * and initialize it as a separate Ext Direct Provider.
          */
         apiUrl: 'resources/direct/api.php?form=true',
         

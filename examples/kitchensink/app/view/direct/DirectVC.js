@@ -1,6 +1,6 @@
 /**
  * This abstract ViewController implements certain methods shared by
- * all ViewControllers in Ext.Direct examples.
+ * all ViewControllers in Ext Direct examples.
  */
 Ext.define('KitchenSink.view.direct.DirectVC', {
     extend: 'Ext.app.ViewController',
@@ -12,7 +12,7 @@ Ext.define('KitchenSink.view.direct.DirectVC', {
     config: {
         /**
          * @cfg {String} url
-         * The URL to use for Ext.Direct service discovery requests.
+         * The URL to use for Ext Direct service discovery requests.
          */
         apiUrl: undefined,
         
@@ -47,7 +47,7 @@ Ext.define('KitchenSink.view.direct.DirectVC', {
         };
         
         // Make a synchronous request to the global Direct controller
-        // to request Ext.Direct API initialization. It may happen
+        // to request Ext Direct API initialization. It may happen
         // that the API was already initalized, in which case Direct
         // controller will set `success` flag in the options object
         // we're passing and we can proceed immediately.
@@ -106,5 +106,14 @@ Ext.define('KitchenSink.view.direct.DirectVC', {
     
     onProviderFail: function(requestUrl, error) {
         Ext.Msg.alert('Ext.Direct init failure', error);
+    },
+    
+    // Retrieve provider reference by its URL
+    getProvider: function(url) {
+        var options = { url: url };
+        
+        this.fireEvent('directgetprovider', options);
+        
+        return options.provider;
     }
 });

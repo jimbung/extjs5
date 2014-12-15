@@ -22,6 +22,9 @@ Ext.define('KitchenSink.view.direct.NamedForm', {
         type: 'ViewController',
         path: 'app/view/direct/NamedFormController.js'
     }, {
+        type: 'Base ViewController',
+        path: 'app/view/direct/DirectVC.js'
+    }, {
         type: 'Server TestAction class',
         path: 'resources/direct/source.php?file=testaction'
     }, {

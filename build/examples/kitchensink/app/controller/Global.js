@@ -11,6 +11,7 @@ Ext.define('KitchenSink.controller.Global', {
         'Restaurants',
         'Files',
         'States',
+        'RemoteStates',
         'BigData',
         "USD2EUR",
         'Widgets',

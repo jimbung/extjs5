@@ -24,6 +24,9 @@ Ext.define('KitchenSink.view.direct.Generic', {
         type: 'ViewController',
         path: 'app/view/direct/GenericController.js'
     }, {
+        type: 'Base ViewController',
+        path: 'app/view/direct/DirectVC.js'
+    }, {
         type: 'Server TestAction class',
         path: 'resources/direct/source.php?file=testaction'
     }, {

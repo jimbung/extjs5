@@ -132,7 +132,7 @@ Ext.define('KitchenSink.view.form.RatingForm', {
         }
     }, {
         xtype: 'fieldcontainer',
-        fieldLabel: 'Current Rating',
+        fieldLabel: 'Current\u00a0Rating',
         bind: {
             disabled: '{!employeeGrid.selection}'
         },

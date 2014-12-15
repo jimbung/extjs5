@@ -105,7 +105,7 @@
         // overrides dynamically after Ext has been defined.
         overridePath = packagePath + theme + (repoDevMode ? '-debug' : '') + '.js';
 
-        if (repoDevMode &&  window.ActiveXObject) {
+        if (repoDevMode && window.ActiveXObject) {
             Ext = {
                 _beforereadyhandler: function() {
                     Ext.Loader.loadScript({ url: overridePath });

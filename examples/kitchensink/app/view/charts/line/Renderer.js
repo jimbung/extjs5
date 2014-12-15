@@ -41,7 +41,7 @@ Ext.define('KitchenSink.view.charts.line.Renderer', {
         store: {
             type: 'pie'
         },
-        id: 'line-chart-markers',
+        id: 'line-chart-renderer',
         interactions: {
             type: 'panzoom',
             zoomOnPanGesture: true

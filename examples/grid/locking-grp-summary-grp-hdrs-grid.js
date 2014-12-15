@@ -114,7 +114,7 @@ Ext.onReady(function(){
         }],
         split: true,
         lockedGridConfig: {
-            title: 'Project tasks',
+            header: false,
             collapsible: true,
             width: 300,
             forceFit: true
