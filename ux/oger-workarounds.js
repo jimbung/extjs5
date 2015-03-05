@@ -38,18 +38,29 @@
 
   Ext.override(Ext.data.Connection, {
 
-    createResponse: function() {
+    createResponse: function(request) {
 
-      //perform pre-processing
-      //alert("pre-processing");
+			// perform preprocessing
+			// detect invalid json
+			/* This has no extra benefit (at least notn for store loading),
+			 * but doubles the error messages in the debug console.
+			 * So we disabled for now
+			try {
+				var tmp = Ext.JSON.decode(request.xhr.responseText);
+			} catch (ex) {
+        // this should result in calling extjs failure listeners
+        request.xhr.responseText = '{"success":false,"msg":"Invalid Json from server."}';
+			}
+			*/
 
-      //call the original hide function
+
+      //call the original function
       var response = originalFunc.apply(this, arguments);
 
       //perform post-processing.
       if (!(response.responseText || response.responseXML)) {
         /*
-         * hide details
+         * show details - disabled for now
         var params = response.request.options.params;
         var paramStr = '';
         for (prop in params) {
