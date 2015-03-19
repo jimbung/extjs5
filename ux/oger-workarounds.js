@@ -38,24 +38,18 @@
 
   Ext.override(Ext.data.Connection, {
 
-    createResponse: function(request) {
+    createResponse: function() {
 
 			// perform preprocessing
-			// detect invalid json
-			/* This has no extra benefit (at least notn for store loading),
-			 * but doubles the error messages in the debug console.
-			 * So we disabled for now
-			try {
-				var tmp = Ext.JSON.decode(request.xhr.responseText);
-			} catch (ex) {
-        // this should result in calling extjs failure listeners
-        request.xhr.responseText = '{"success":false,"msg":"Invalid Json from server."}';
-			}
-			*/
+      // arguments[0].xhr.responseText = '{ "success": false, "msg": "Empty response from server." }';
+			// request (arguments[0]) is immutable - so no chance to change here
+			// it is enough to change the response object, because the original function
+			// mainly transfers the xhr values from browser xhr object to the extjs-response object
 
 
       //call the original function
       var response = originalFunc.apply(this, arguments);
+
 
       //perform post-processing.
       if (!(response.responseText || response.responseXML)) {
@@ -74,8 +68,18 @@
             '.');
         */
         // this should result in calling extjs failure listeners
-        response.responseText = '{"success":false,"msg":"Empty response from server."}';
+        response.responseText = '{ "success": false, "msg": "Empty response from server." }';
       }
+
+
+			// check for invalid json in response text if no xml present
+			if (!response.responseXML) {
+				var tmpDecode = Ext.JSON.decode(response.responseText, true);
+				if (tmpDecode === null) {
+					response.responseText = '{ "success": false, "msg": "Invalid Json from server." }';
+				}
+			}
+
 
       // return the return-value from the original function
       return response;
