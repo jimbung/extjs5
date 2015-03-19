@@ -41,24 +41,9 @@
     createResponse: function(request) {
 
 			// perform preprocessing
-			// detect invalid json
-			/* This has no extra benefit (at least notn for store loading),
-			 * but doubles the error messages in the debug console.
-			 * So we disabled for now
-			try {
-				var tmp = Ext.JSON.decode(request.xhr.responseText);
-			} catch (ex) {
-        // this should result in calling extjs failure listeners
-        request.xhr.responseText = '{"success":false,"msg":"Invalid Json from server."}';
-			}
-			*/
 
-
-      //call the original function
-      var response = originalFunc.apply(this, arguments);
-
-      //perform post-processing.
-      if (!(response.responseText || response.responseXML)) {
+      // check for empty response
+      if (!(request.xhr.responseText || request.xhr.responseXML)) {
         /*
          * show details - disabled for now
         var params = response.request.options.params;
@@ -73,9 +58,28 @@
             '; Params: ' + paramStr +
             '.');
         */
-        // this should result in calling extjs failure listeners
-        response.responseText = '{"success":false,"msg":"Empty response from server."}';
+        // following response text should result in calling extjs failure listeners
+        request.xhr.responseText = '{ "success": false, "msg": "Empty response from server." }';
+        //request.xhr.response = request.xhr.responseText;
       }
+
+
+			// check for invalid json in response text if no xml present
+			if (!request.xhr.responseXML) {
+				var decoded = Ext.JSON.decode(request.xhr.responseText, true);
+				if (decoded === null) {
+					request.xhr.responseText = '{ "success": false, "msg": "Invalid Json from server." }';
+					//request.xhr.response = request.xhr.responseText;
+				}
+			}
+
+
+      //call the original function
+      var response = originalFunc.apply(this, arguments);
+
+
+      // perform postprocessing
+      // moved to preprocessing
 
       // return the return-value from the original function
       return response;
