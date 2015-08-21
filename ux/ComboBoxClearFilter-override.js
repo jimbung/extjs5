@@ -16,7 +16,9 @@
  */
 
 
-Ext.override( Ext.form.field.ComboBox, {
+Ext.define('Ext.uxoverrides.form.field.ComboBoxClearFilter', {
+		override: 'Ext.form.field.ComboBox',
+
 
     beforeBlur: function() {
         this.doQueryTask.cancel();

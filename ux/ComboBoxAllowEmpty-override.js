@@ -14,8 +14,9 @@ see: <http://stackoverflow.com/questions/9371705/how-to-re-empty-combobox-when-f
  * See other alternatives below
  */
 
+Ext.define('Ext.uxoverrides.form.field.ComboBoxAllowEmtyp', {
+		override: 'Ext.form.field.ComboBox',
 
-Ext.override( Ext.form.field.ComboBox, {
 
     // private !!! modified
     assertValue: function() {

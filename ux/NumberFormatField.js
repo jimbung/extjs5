@@ -25,6 +25,7 @@
 Ext.define('Ext.ux.NumberFormatField', {
   extend: 'Ext.form.field.Text',
   alias: 'widget.ux_numberformatfield',
+  requires: [ 'Ext.util.Format' ],
 
 
   config:{
