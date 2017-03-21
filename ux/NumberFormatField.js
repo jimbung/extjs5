@@ -76,7 +76,8 @@ Ext.define('Ext.ux.NumberFormatField', {
     var me = this;
     if (value) {
       value = String(value);
-      value = value.replace(Ext.util.Format.thousandSeparator, '');
+      // value = value.replace(Ext.util.Format.thousandSeparator, '');  // only replace the first occurence
+      value = value.split(Ext.util.Format.thousandSeparator).join('');
       var dec = Ext.util.Format.decimalSeparator;
       /*
       if (dec == '.') {
