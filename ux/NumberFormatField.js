@@ -14,7 +14,7 @@
  * 2) Ext.form.field.Text and do everything here
  *    including keystroke filtering and so on
  *
- * We first try numberfield.
+ * We first tried numberfield (cannot remember why we stoped), but use textfield now.
  *
  * We did NOT test the rawToValue and valueToRaw route.
  *
@@ -37,8 +37,8 @@ Ext.define('Ext.ux.NumberFormatField', {
   constructor:function(cfg) {
     this.callParent(arguments);  // Calling the parent class constructor
     this.initConfig(cfg);  // Initializing the component
-    this.on('blur',this.onBlur);
-    this.on('focus',this.onFocus);
+    this.on('blur',this.onBlurFunc);  // maybe use initConfig? But works for now, so stick on current version. On problems see: <http://stackoverflow.com/questions/14588823/properly-extending-extjs-component-without-overwriting-listeners>
+    this.on('focus',this.onFocusFunc);
   },
 
 
@@ -109,14 +109,20 @@ Ext.define('Ext.ux.NumberFormatField', {
 
 
   // format on blur
-  onBlur: function(cmp, ev, opts) {
+  // ATTENTION: using the recommended function name 'onBlur' ignores
+  // following addListener and config entries for the 'blur' event !!!
+  // At least in extjs 5.1.1
+  onBlurFunc: function(cmp, ev, opts) {
     var me = this;
     var value = me.getValue();
     me.setRawValue(me.formatValue(value));
   },
 
   // unformat on focus
-  onFocus: function(cmp, ev, opts) {
+  // ATTENTION: using the recommended function name 'onFocus' ignores
+  // ignores following addListener and config entries for the 'focus' event !!!
+  // At least in extjs 5.1.1
+  onFocusFunc: function(cmp, ev, opts) {
     var me = this;
     var value = me.getRawValue();
     // decimal is normalized to '.' by getRawValue,
